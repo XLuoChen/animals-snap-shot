@@ -3,10 +3,11 @@
 ####请按照以下步骤运行该项目：
  
 ```
-1. git clone git@github.com:XLuoChen/animals-snapshots.git
+
+1. npm install
   
-2. npm install
-  
-3. jasmine
+2. jasmine
 
 ```
+
+***注：若单元测试全部通过表明代码无误***
