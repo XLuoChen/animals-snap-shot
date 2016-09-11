@@ -88,10 +88,31 @@ const findWrongSnapshot = (animalsSnapshots) => {
   return null;
 };
 
+const buildAllAnimalsSnapshots = (animalsSnapshots) => {
+  const allAnimalsSnapshots = [];
+  for (let i = 0; i < animalsSnapshots.length; i++) {
+    const allAnimals = animalsSnapshots[i].animals.map(animal => {
+      const currentx = animal.lastx + animal.changedx;
+      const currenty = animal.lasty + animal.changedy;
+
+      return {animalId: animal.animalId, currentx, currenty};
+    });
+    allAnimalsSnapshots.push({animalsSnapshot: animalsSnapshots[i], allAnimals});
+    if (i > 0) {
+      const currentAnimals = allAnimalsSnapshots[i].allAnimals;
+      const notMovedAnimals = allAnimalsSnapshots[i - 1].allAnimals.filter(
+        item => !currentAnimals.some(a => a.animalId === item.animalId));
+      allAnimalsSnapshots[i].allAnimals = currentAnimals.concat(notMovedAnimals);
+    }
+  }
+  return allAnimalsSnapshots;
+};
+
 module.exports = {
   printAnimalsSnapshots,
   buildTimeSnapshots,
   isValidFormat,
   buildAnimalsSnapshots,
-  findWrongSnapshot
+  findWrongSnapshot,
+  buildAllAnimalsSnapshots
 };
