@@ -5,6 +5,12 @@ const printAnimalsSnapshots = (historyData)=> {
     console.log('Invalid format');
   } else {
     const animalsSnapshots = buildAnimalsSnapshots(timeSnapshots);
+    const wrongSnapshot = findWrongSnapshot(animalsSnapshots);
+    if (wrongSnapshot) {
+      console.log(`Conflict found at ${wrongSnapshot.timeId}`);
+    } else {
+
+    }
   }
 };
 
@@ -64,9 +70,28 @@ const formatData = (data) => {
   return parseInt(data);
 };
 
+const findWrongSnapshot = (animalsSnapshots) => {
+  for (let i = 1; i < animalsSnapshots.length; i++) {
+    for (let j = 0; j < animalsSnapshots[i].animals.length; j++) {
+      const animal = animalsSnapshots[i].animals[j];
+      if (animal.changedx && animal.changedy) {
+        const lastSnapshots = animalsSnapshots[i - 1].animals.find(ele => ele.animalId === animal.animalId);
+        const x = lastSnapshots.lastx + lastSnapshots.changedx;
+        const y = lastSnapshots.lasty + lastSnapshots.changedy;
+
+        if (animal.lastx !== x || animal.lasty !== y) {
+          return animalsSnapshots[i];
+        }
+      }
+    }
+  }
+  return null;
+};
+
 module.exports = {
   printAnimalsSnapshots,
   buildTimeSnapshots,
   isValidFormat,
-  buildAnimalsSnapshots
+  buildAnimalsSnapshots,
+  findWrongSnapshot
 };
