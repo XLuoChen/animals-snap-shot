@@ -42,27 +42,22 @@ const hasCorrectCoordinate = (animal) => {
 };
 
 const buildAnimalsSnapshots = (timeSnapshots)=> {
-  const animalsSnapshots = timeSnapshots.map(timeSnapshot => {
+  return timeSnapshots.map(timeSnapshot => {
     const animals = timeSnapshot.animals.map(animal => {
       const animalCoordinates = animal.split(' ');
       const animalId = animalCoordinates[0];
-      let lastx = formatData(animalCoordinates[1]);
-      let lasty = formatData(animalCoordinates[2]);
-      let changedx, changedy;
+      const lastx = formatData(animalCoordinates[1]);
+      const lasty = formatData(animalCoordinates[2]);
 
-      if (animalCoordinates.length === 3) {
-        changedx = 0;
-        changedy = 0;
-      } else {
-        changedx = formatData(animalCoordinates[3]);
-        changedy = formatData(animalCoordinates[4]);
-      }
+      const isChanged = animalCoordinates.length === 5;
+      const changedx = isChanged ? formatData(animalCoordinates[3]) : 0;
+      const changedy = isChanged ? formatData(animalCoordinates[4]) : 0;
+
       return {animalId, lastx, lasty, changedx, changedy};
     });
+
     return {timeId: timeSnapshot.timeId, date: timeSnapshot.date, animals};
   });
-
-  return animalsSnapshots;
 };
 
 const formatData = (data) => {
