@@ -4,7 +4,7 @@ const printAnimalsSnapshots = (historyData)=> {
   if (!isValidFormat(timeSnapshots)) {
     console.log('Invalid format');
   } else {
-
+    const animalsSnapshots = buildAnimalsSnapshots(timeSnapshots);
   }
 };
 
@@ -31,8 +31,8 @@ const isValidFormat = (timeSnapshots)=> {
     isValidDate = (/\d{4}\/\d{2}\/\d{2}\s\d{2}:\d{2}:\d{2}$/).test(timeSnapshot.date);
     isValidCoordinate = timeSnapshot.animals.every(animal => hasCorrectCoordinate(animal));
   });
-  return (isValidTimeId && isValidDate && isValidCoordinate);
 
+  return (isValidTimeId && isValidDate && isValidCoordinate);
 };
 
 const hasCorrectCoordinate = (animal) => {
